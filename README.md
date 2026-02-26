@@ -114,7 +114,7 @@ Bu kadar! Simdi donanima gecebiliriz.
 
 Sistemde 3 donanim var. Her birinin ne is yaptigini anlamak onemli:
 
-![Donanim Baglantisi](assets/ekg_hardware_wiring.png)
+![Donanim Baglantisi]
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────┐
@@ -254,6 +254,8 @@ AD8232 modulune 3.5mm jack ile baglanan 3 renkli kablo vardir. Her birinin ucuna
 | Yesil | RL (Right Leg / REF) | **Sag karin** — en alt kaburga kemiginin altinda, sag taraf |
 
 Vucuttaki konumlar:
+
+![Elektrotlarin Vucuttaki Yerlesimi](assets/electrode_placement_body.png)
 
 ```
          Sag omuz              Sol omuz

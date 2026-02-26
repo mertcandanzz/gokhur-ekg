@@ -114,6 +114,8 @@ Bu kadar! Simdi donanima gecebiliriz.
 
 Sistemde 3 donanim var. Her birinin ne is yaptigini anlamak onemli:
 
+![Donanim Baglantisi](assets/ekg_hardware_wiring.png)
+
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────┐
 │   AD8232    │────►│ Arduino UNO  │────►│  ESP32  │
@@ -564,6 +566,8 @@ const bool USE_SSL = true;
 ---
 
 ## Veri Akisi Diyagrami
+
+![Sistem Mimarisi](assets/ekg_system_architecture.png)
 
 ```
 ┌──────────────────────────────────────────────────────────────┐

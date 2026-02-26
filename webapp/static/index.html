@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>EKG Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00e4b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12 L6 12 L8 4 L12 20 L16 8 L18 12 L22 12"/>
+        </svg>
+      </div>
+      <h1>EKG <span>Monitor</span></h1>
+    </div>
+    <div class="header-right">
+      <button class="sim-btn" id="simBtn">Simulasyon</button>
+      <button class="panic-btn" id="panicBtn">
+        <div class="panic-fill" id="panicFill"></div>
+        <svg class="panic-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+        <span class="panic-label">Panik Atak</span>
+      </button>
+      <div class="status-badge" id="statusBadge">
+        <div class="status-dot"></div>
+        <span id="statusText">Baglaniyor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card highlight">
+      <span class="stat-label">Kalp Hizi</span>
+      <span class="stat-value accent" id="bpm">-- <small>BPM</small></span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Sinyal</span>
+      <span class="stat-value" id="signal">--</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Durum</span>
+      <span class="stat-value" id="leadStatus">--</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Paket/sn</span>
+      <span class="stat-value" id="pps">0</span>
+    </div>
+  </div>
+
+  <!-- EKG Canvas -->
+  <div class="canvas-section">
+    <div class="canvas-wrap">
+      <canvas id="ekgCanvas"></canvas>
+
+      <div class="lead-off-overlay" id="leadOff">
+        ELEKTROT BAGLANTISI YOK
+        <small>Elektrotlari kontrol edin</small>
+      </div>
+
+      <div class="waiting-overlay" id="waiting">
+        <div class="pulse-ring"></div>
+        <p>Cihaz baglantisi bekleniyor</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>AD8232 EKG &middot; FastAPI + WebSocket</span>
+    <span id="footerWs">ws://--</span>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

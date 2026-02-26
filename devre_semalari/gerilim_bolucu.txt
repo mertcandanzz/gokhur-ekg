@@ -1,0 +1,38 @@
+
+═══════════════════════════════════════════════════════════════════════════
+  ARDUINO TX → ESP32 RX GERILIM BOLUCUSU (ONERILIR)
+═══════════════════════════════════════════════════════════════════════════
+
+  Arduino UNO TX pini 5V sinyal cikarir.
+  ESP32 GPIO pinleri 3.3V toleranslidir.
+  Direkt baglanti ESP32'ye zarar VEREBILIR.
+
+  Cozum: Basit direnc gerilim bolucusu
+
+  ┌─────────────────────────────────────────────────┐
+  │                                                 │
+  │  Arduino TX (5V) ──── [R1: 1KΩ] ────┬──── ESP32 GPIO16 (3.3V)
+  │                                      │          │
+  │                                   [R2: 2KΩ]     │
+  │                                      │          │
+  │                                     GND         │
+  │                                                 │
+  └─────────────────────────────────────────────────┘
+
+  Hesaplama:
+    Vout = Vin × R2 / (R1 + R2)
+    Vout = 5V × 2000 / (1000 + 2000)
+    Vout = 5V × 0.666
+    Vout = 3.33V  ✓
+
+  Alternatif deger kombinasyonlari:
+  ┌──────┬──────┬────────┐
+  │ R1   │ R2   │ Vout   │
+  ├──────┼──────┼────────┤
+  │ 1KΩ  │ 2KΩ  │ 3.33V  │  ← Onerilir
+  │ 10KΩ │ 20KΩ │ 3.33V  │
+  │ 1KΩ  │ 2.2KΩ│ 3.44V  │  ← Kabul edilebilir
+  └──────┴──────┴────────┘
+
+  ⚠ Gerilim bolucusu KULLANMADAN da calisabilir
+     (cogu ESP32 5V tolere eder ama garanti degil)

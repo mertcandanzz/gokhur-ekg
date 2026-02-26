@@ -1,0 +1,123 @@
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                    EKG AD8232 - ESP32 BAGLANTI SEMASI               ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+
+┌─────────────────┐          ┌──────────────────┐          ┌──────────────┐
+│    AD8232 EKG   │          │   ARDUINO UNO    │          │    ESP32     │
+│                 │          │                  │          │              │
+│  OUTPUT ────────┼─────────►│ A0 (Analog In)   │          │              │
+│  LO+ ──────────┼─────────►│ D10              │          │              │
+│  LO- ──────────┼─────────►│ D11              │          │              │
+│  3.3V ─────────┼──── 3.3V │                  │          │              │
+│  GND ──────────┼──── GND  │                  │          │              │
+│                 │          │                  │          │              │
+│                 │          │  TX (Pin 1) ─────┼─────────►│ GPIO16 (RX2) │
+│                 │          │  GND ────────────┼──────────│ GND          │
+│                 │          │                  │          │              │
+└─────────────────┘          └──────────────────┘          └──────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+KABLO BAGLANTILARI (DETAY)
+═══════════════════════════════════════════════════════════════════════════
+
+1. AD8232 → Arduino UNO:
+   ┌────────────┬──────────────┐
+   │ AD8232 Pin │ Arduino Pin  │
+   ├────────────┼──────────────┤
+   │ OUTPUT     │ A0           │
+   │ LO+        │ D10          │
+   │ LO-        │ D11          │
+   │ 3.3V       │ 3.3V         │
+   │ GND        │ GND          │
+   └────────────┴──────────────┘
+
+2. Arduino UNO → ESP32:
+   ┌──────────────┬──────────────┐
+   │ Arduino Pin  │ ESP32 Pin    │
+   ├──────────────┼──────────────┤
+   │ TX (Pin 1)   │ GPIO16 (RX2) │
+   │ GND          │ GND          │
+   └──────────────┴──────────────┘
+
+   ⚠ ONEMLI: Arduino TX → ESP32 RX2 (GPIO16)
+   ⚠ Ortak GND baglantisi SART!
+   ⚠ Arduino 5V, ESP32 3.3V - Gerilim bolucusu ONERILIR:
+
+     Arduino TX ──┤1K├──┬──► ESP32 GPIO16 (RX2)
+                        │
+                       ┤2K├
+                        │
+                       GND
+
+     (5V * 2K / (1K+2K) = 3.3V)
+
+
+═══════════════════════════════════════════════════════════════════════════
+ELEKTROT BAGLANTILARI
+═══════════════════════════════════════════════════════════════════════════
+
+3-Lead EKG Elektrot Yerlesimleri:
+
+     ┌──────────┐
+     │  RA(-)   │  → Sag kol / sag omuza yakin gogus
+     │          │
+     │          │
+     │  LA(+)   │  → Sol kol / sol omuza yakin gogus
+     │          │
+     │          │
+     │  RL(REF) │  → Sag bacak / sag kalca alti
+     └──────────┘
+
+  AD8232 Kablo Renkleri (standart):
+  ┌───────┬────────┬──────────────────┐
+  │ Renk  │ Lead   │ Konum            │
+  ├───────┼────────┼──────────────────┤
+  │ Kirmizi│ RA (-) │ Sag kol/omuz    │
+  │ Sari   │ LA (+) │ Sol kol/omuz    │
+  │ Yesil  │ RL(REF)│ Sag bacak/kalca │
+  └───────┴────────┴──────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+GUC BAGLANTILARI
+═══════════════════════════════════════════════════════════════════════════
+
+  • Arduino UNO: USB ile beslenebilir
+  • ESP32: Ayri USB ile beslenebilir
+  • AD8232: Arduino 3.3V pininden beslenir
+
+  ⚠ Her iki kartın GND'si birlesik olmali!
+
+
+═══════════════════════════════════════════════════════════════════════════
+VERI AKISI
+═══════════════════════════════════════════════════════════════════════════
+
+  AD8232 (Analog)
+       │
+       ▼
+  Arduino A0 → analogRead() → Serial.println() @ 115200 baud
+       │
+       ▼ (TX Pin)
+  ESP32 RX2 (GPIO16) → Serial2.read() → WebSocket broadcast
+       │
+       ▼ (WiFi)
+  Web Tarayici ← WebSocket (port 81) ← HTTP (port 80)
+       │
+       ▼
+  Canvas EKG Grafigi (gercek zamanli)
+
+
+═══════════════════════════════════════════════════════════════════════════
+WIFI AYARLARI (Varsayilan)
+═══════════════════════════════════════════════════════════════════════════
+
+  Mod:   Access Point (AP)
+  SSID:  EKG_Monitor
+  Sifre: ekg12345
+  IP:    192.168.4.1
+  HTTP:  http://192.168.4.1
+  WS:    ws://192.168.4.1:81
